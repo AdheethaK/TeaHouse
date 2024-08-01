@@ -1,66 +1,89 @@
-import { StatusBar } from 'expo-status-bar';
-import { Image } from 'expo-image';
-import { View ,Button , Alert , Text, StyleSheet, Pressable } from 'react-native';
+import { NavigationContainer } from "@react-navigation/native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import HomeScreen from "./screens/HomeScreen";
+import ProfileScreen from "./screens/ProfileScreen";
+import MyCartScreen from "./screens/MyCartScreen";
+import FavouritesScreen from "./screens/FavouritesScreen";
+import { Image , StyleSheet , View } from "react-native";
+import home_icon from "./assets/images/24.png";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faHouse , faCartShopping , faHeart , faUser } from "@fortawesome/free-solid-svg-icons";
 
-const blurhash =
-  '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
+const Tab = createBottomTabNavigator()
 
-export default function App(props) {
-  return (
-    <View style={styles.container}>
-
-      <Text style={styles.text}>COFFEE</Text>
-      <View style={styles.logoContainer}>
-        <Image 
-          style={styles.image} 
-          source={require('./assets/images/LOGO.png')} 
-          placeholder={{ blurhash }}
-          contentFit="cover"
-          transition={1000}
+export default function App(){
+  return(
+    <NavigationContainer>
+      <Tab.Navigator 
+      screenOptions={{
+        tabBarShowLabel:false,
+          //Tab bar styles can be added here
+          tabBarStyle:{paddingVertical: 5,borderTopLeftRadius:30,borderTopRightRadius:30,backgroundColor:'#FFE500',height:66 , width:380,
+            position: 'absolute',
+            bottom: 0,
+            left: 13,
+            right: 10,
+            margin:"auto",
+            textAlignVertical: 'center',
+          },
+          tabBarLabelStyle:{paddingBottom:3},
+          tabBarActiveTintColor: '#B5B5B5',
+          tabBarInactiveTintColor: '#696969',
+        }}>
+        <Tab.Screen name="Home" component={HomeScreen}
+          options={({ route }) => ({
+            headerShown:false,
+            tabBarIcon: ({size,focused,color}) => {
+              return (
+                <View style={styles.container}>
+                  <FontAwesomeIcon icon={faHouse} color={focused ? '#696969' : '#B5B5B5'} size={25}/>
+              </View>
+              );
+            },
+        })}
         />
-        {/* <Text>HOUSE</Text> */}
-      </View>
-
-    </View>
+        <Tab.Screen name="MyCart" component={MyCartScreen} options={{
+          headerShown:false,
+          tabBarIcon: ({size,focused,color}) => {
+            return (
+              <View style={styles.container}>
+                  <FontAwesomeIcon icon={faCartShopping} color={focused ? '#696969' : '#B5B5B5'} size={25}/>
+              </View>
+            );
+          },
+          }}/>
+        <Tab.Screen name="Favourites" component={FavouritesScreen} options={{
+          headerShown:false,
+          tabBarIcon: ({size,focused,color}) => {
+            return (
+              <View style={styles.container}>
+                  <FontAwesomeIcon icon={faHeart} color={focused ? '#696969' : '#B5B5B5'} size={25}/>
+              </View>
+            );
+          },
+          }}/>
+        <Tab.Screen name="Profile" component={ProfileScreen} options={{
+          headerShown:false,
+          tabBarIcon: ({size,focused,color}) => {
+            return (
+              <View style={styles.container}>
+                  <FontAwesomeIcon icon={faUser} color={focused ? '#696969' : '#B5B5B5'} size={25} />
+              </View>
+            );
+          },
+          }}/>
+      </Tab.Navigator>
+    </NavigationContainer>
   );
-  
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'white',
-    alignItems: 'center',
-    justifyContent: 'center',
+  container : {
+      backgroundColor : '#F8ED16',
   },
-  button: {
-    alignItems: 'center',
-    position : 'absolute',
-    bottom : 10,
-    justifyContent: 'center',
-    paddingVertical: 12,
-    paddingHorizontal: 32,
-    borderRadius: 4,
-    color : 'black',
-    elevation: 3,
-    backgroundColor: '#ADECFF',
-  },
-  logoContainer: {
-    backgroundColor: 'white',
-    width : 280,
-    height : 280,
-  } ,
-  text: {
-    fontSize: 30,
-    lineHeight: 50,
-    fontWeight: 'bold',
-    letterSpacing: 0.25,
-    color: '817B7E',
-  },
-  image: {
-    flex: 1,
-    width: '100%',
-    height : 'auto' ,
-    backgroundColor: 'white',
-  },
-});
+  text : {
+      fontSize : 24 ,
+      fontWeight : "bold" ,
+      marginBottom : 16 ,
+  }
+})
